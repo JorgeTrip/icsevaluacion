@@ -1,0 +1,16 @@
+[
+  {
+    "version": "1.0.0",
+    "fecha": "2026-11-19",
+    "titulo": "Lanzamiento Inicial de ICS Evaluación",
+    "cambios": [
+      "feat: Banco completo con más de 200 preguntas reales de parcial de la cátedra Dalceggio / Mansilla",
+      "feat: Filtros por cuatrimestre (1C, 2C o Toda la materia) y unidades curriculares (U1 a U6)",
+      "feat: Modos de evaluación: tandas de 10, 20, 30 preguntas o modo infinito",
+      "feat: Feedback inmediato con justificación conceptual fundamentada en la bibliografía oficial",
+      "feat: Modo Repaso de Fallos para reintentar preguntas con errores previos",
+      "feat: Soberanía de datos con persistencia en LocalStorage y exportación/importación en JSON",
+      "feat: Diseño Mobile-First con paleta Grises Pro y soporte modo oscuro/claro"
+    ]
+  }
+]

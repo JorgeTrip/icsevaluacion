@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Ocultar barra de scroll en contenedores horizontales móviles manteniendo funcionalidad */
+.sin-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.sin-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
