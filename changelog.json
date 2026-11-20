@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.1.3",
+    "fecha": "2026-11-19",
+    "titulo": "Renovación pedagógica de justificaciones conceptuales",
+    "cambios": [
+      "fix: Se reemplaza el 100% de las justificaciones boilerplate por explicaciones teóricas concisas y rigurosas basadas en el marco conceptual de la cátedra",
+      "fix: Se eliminan todas las referencias a apuntes, PDFs y numeraciones de página de las retroalimentaciones",
+      "fix: Se corrige la clave de respuestas de la pregunta u1-020 (Visiones de Calidad - Fiat Palio vs Mercedes Benz) incorporando la Visión del Usuario como respuesta correcta",
+      "fix: Se reconstruyen y articulan enunciados incompletos para asegurar preguntas autónomas y de alta fidelidad académica"
+    ]
+  },
+  {
     "version": "1.1.2",
     "fecha": "2026-11-19",
     "titulo": "Auditoría exhaustiva de siglas y prevención de caché",
