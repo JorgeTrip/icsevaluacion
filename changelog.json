@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.1.2",
+    "fecha": "2026-11-19",
+    "titulo": "Auditoría exhaustiva de siglas y prevención de caché",
+    "cambios": [
+      "fix: Se auditan y expanden sistemáticamente todas las siglas del banco (SW, ICs, ITIL, WIP, ROI, CIO, FCA, PCA, IFPUG, SLOC, KLOC, COCOMO, PO, API, etc.) con su significado completo entre paréntesis",
+      "fix: Se agregan directivas anti-caché en index.html y se incorpora distintivo visible de versión en la cabecera para asegurar actualización inmediata"
+    ]
+  },
+  {
     "version": "1.1.1",
     "fecha": "2026-11-19",
     "titulo": "Saneamiento de opciones de corrección y aclaración pedagógica de abreviaciones",
