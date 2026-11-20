@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.1.1",
+    "fecha": "2026-11-19",
+    "titulo": "Saneamiento de opciones de corrección y aclaración pedagógica de abreviaciones",
+    "cambios": [
+      "fix: Se purgan textos de corrección filtrados del formato Moodle ('Respuesta incorrecta', 'Your answer is incorrect', etc.) de las opciones y enunciados en todo el banco",
+      "fix: Se reparan opciones partidas y marcadores de posición asegurando alternativas completas de examen",
+      "fix: Se agregan explicaciones entre paréntesis para todas las abreviaciones técnicas de la materia (TDD, SCM, SQA, CMMI, PSP, TSP, RUP, XP, SWEBoK, etc.)",
+      "fix: Se ajustan las opciones y respuestas correctas de la pregunta u1-190 sobre criterios de parada de testing"
+    ]
+  },
+  {
     "version": "1.1.0",
     "fecha": "2026-11-19",
     "titulo": "Soporte interactivo para unir conceptos con flechas SVG",
