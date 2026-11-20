@@ -20,7 +20,10 @@ def obtener_unidad_por_pagina(num_pag: int) -> tuple[str, str]:
     return 'U6', '2C'
 
 def parsear_documento():
-    reader = pypdf.PdfReader('IS - Preguntas de parcial - ordenadas por temas.pdf')
+    ruta_pdf = '@material/IS - Preguntas de parcial - ordenadas por temas.pdf'
+    if not os.path.exists(ruta_pdf):
+        ruta_pdf = 'IS - Preguntas de parcial - ordenadas por temas.pdf'
+    reader = pypdf.PdfReader(ruta_pdf)
     paginas = [{'num': idx + 1, 'texto': normalizar_texto(page.extract_text() or ''),
                 'unidad': obtener_unidad_por_pagina(idx + 1)[0],
                 'cuatrimestre': obtener_unidad_por_pagina(idx + 1)[1]}
