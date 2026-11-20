@@ -9,7 +9,8 @@
 | :--- | :--- |
 | **Banco de Preguntas** | Repositorio estructurado e inmutable de preguntas de evaluación extraídas de parciales reales y bibliografía de cátedra. |
 | **Pregunta** | Unidad atómica de evaluación con enunciado, opciones, respuestas correctas, unidad temática, cuatrimestre y justificación teórica. |
-| **Tipo de Pregunta** | Clasificación del formato de respuesta: `VERDADERO_FALSO`, `OPCION_UNICA` o `SELECCION_MULTIPLE`. |
+| **Tipo de Pregunta** | Clasificación del formato de respuesta: `VERDADERO_FALSO`, `OPCION_UNICA`, `SELECCION_MULTIPLE` o `UNIR_CONCEPTOS`. |
+| **Par de Emparejamiento** | Tupla compuesta por `origenId` (Columna A) y `destinoId` (Columna B) establecida por el usuario o definida en la respuesta correcta. |
 | **Opción** | Cada una de las alternativas seleccionables presentadas al estudiante en una pregunta. |
 | **Sesión de Evaluación** | Instancia de ejecución donde el estudiante responde una tanda delimitada o infinita de preguntas bajo una configuración específica. |
 | **Tanda** | Conjunto ordenado o aleatorio de preguntas asignadas a una sesión (10, 20, 30 preguntas o modo infinito). |

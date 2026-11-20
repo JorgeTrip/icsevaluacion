@@ -79,6 +79,10 @@ export function generarTandaPreguntas(
         p.tipo === TipoPregunta.OPCION_UNICA ||
         p.tipo === TipoPregunta.SELECCION_MULTIPLE
     );
+  } else if (configuracion.tipoFiltro === 'UNIR') {
+    preguntasFiltradas = preguntasFiltradas.filter(
+      (p) => p.tipo === TipoPregunta.UNIR_CONCEPTOS
+    );
   }
 
   // 5. Barajado aleatorio para evitar orden predecible

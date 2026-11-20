@@ -52,7 +52,6 @@ describe('Servicio de Dominio: calculadorPuntaje', () => {
   });
 
   describe('Preguntas de Selección Múltiple con Penalización Proporcional', () => {
-    // Escenario: 3 respuestas correctas ('a', 'b', 'c'), 2 incorrectas ('d', 'e')
     const correctas = ['a', 'b', 'c'];
 
     it('debe otorgar 1.0 punto si selecciona exactamente todas las correctas y ninguna incorrecta', () => {
@@ -67,7 +66,6 @@ describe('Servicio de Dominio: calculadorPuntaje', () => {
     });
 
     it('debe otorgar puntaje proporcional sin penalización cuando marca menos correctas pero 0 incorrectas', () => {
-      // 2 correctas de 3 => 2/3 = 0.67
       const resultado = calcularPuntajeRespuesta({
         tipo: TipoPregunta.SELECCION_MULTIPLE,
         respuestasCorrectas: correctas,
@@ -79,7 +77,6 @@ describe('Servicio de Dominio: calculadorPuntaje', () => {
     });
 
     it('debe penalizar por opciones incorrectas marcadas: (Aciertos - Errores) / TotalCorrectas', () => {
-      // 2 correctas ('a', 'b') y 1 incorrecta ('d') de 3 correctas => (2 - 1) / 3 = 0.33
       const resultado = calcularPuntajeRespuesta({
         tipo: TipoPregunta.SELECCION_MULTIPLE,
         respuestasCorrectas: correctas,
@@ -91,7 +88,6 @@ describe('Servicio de Dominio: calculadorPuntaje', () => {
     });
 
     it('debe acotar a 0.0 puntos (no negatividad) cuando los errores superan a los aciertos', () => {
-      // 1 correcta ('a') y 2 incorrectas ('d', 'e') => (1 - 2) / 3 = -0.33 -> 0.0
       const resultado = calcularPuntajeRespuesta({
         tipo: TipoPregunta.SELECCION_MULTIPLE,
         respuestasCorrectas: correctas,
@@ -107,6 +103,45 @@ describe('Servicio de Dominio: calculadorPuntaje', () => {
         tipo: TipoPregunta.SELECCION_MULTIPLE,
         respuestasCorrectas: correctas,
         opcionesSeleccionadas: [],
+      });
+
+      expect(resultado.puntaje).toBe(0.0);
+      expect(resultado.estado).toBe('INCORRECTA');
+    });
+  });
+
+  describe('Preguntas de Unir Conceptos (Emparejamiento)', () => {
+    // 4 pares correctos
+    const paresCorrectos = ['a:1', 'b:2', 'c:3', 'd:4'];
+
+    it('debe otorgar 1.0 punto cuando todos los pares coinciden exactamente', () => {
+      const resultado = calcularPuntajeRespuesta({
+        tipo: TipoPregunta.UNIR_CONCEPTOS,
+        respuestasCorrectas: paresCorrectos,
+        opcionesSeleccionadas: ['a:1', 'b:2', 'c:3', 'd:4'],
+      });
+
+      expect(resultado.puntaje).toBe(1.0);
+      expect(resultado.estado).toBe('CORRECTA');
+    });
+
+    it('debe otorgar puntaje proporcional por aciertos parciales sin penalización', () => {
+      // 2 aciertos de 4 = 0.5 puntos
+      const resultado = calcularPuntajeRespuesta({
+        tipo: TipoPregunta.UNIR_CONCEPTOS,
+        respuestasCorrectas: paresCorrectos,
+        opcionesSeleccionadas: ['a:1', 'b:2', 'c:4', 'd:3'],
+      });
+
+      expect(resultado.puntaje).toBe(0.5);
+      expect(resultado.estado).toBe('PARCIAL');
+    });
+
+    it('debe otorgar 0.0 puntos cuando ningún par coincide', () => {
+      const resultado = calcularPuntajeRespuesta({
+        tipo: TipoPregunta.UNIR_CONCEPTOS,
+        respuestasCorrectas: paresCorrectos,
+        opcionesSeleccionadas: ['a:2', 'b:1', 'c:4', 'd:3'],
       });
 
       expect(resultado.puntaje).toBe(0.0);

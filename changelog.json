@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.1.0",
+    "fecha": "2026-11-19",
+    "titulo": "Soporte interactivo para unir conceptos con flechas SVG",
+    "cambios": [
+      "feat: Se implementa interacción táctil para emparejar conceptos de dos columnas mediante curvas Bézier SVG dinámicas",
+      "feat: Código cromático por par conectado con capacidad de reasignación y descarte individual o total",
+      "feat: Evaluación no punitiva con cálculo proporcional de puntaje para preguntas de emparejamiento",
+      "feat: Marcadores visuales de acierto o fallo en flechas tras la confirmación de la pregunta",
+      "feat: Inclusión de preguntas de relacionar conceptos en el banco oficial de la cátedra"
+    ]
+  },
+  {
     "version": "1.0.0",
     "fecha": "2026-11-19",
     "titulo": "Lanzamiento Inicial de ICS Evaluación",

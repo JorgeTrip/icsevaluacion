@@ -124,6 +124,7 @@ export function useSesionEvaluacion() {
     respuestasRegistradas,
     iniciarEvaluacion,
     seleccionarOpcion,
+    establecerOpcionesSeleccionadas: setOpcionesSeleccionadas,
     confirmarRespuestaMultiple,
     avanzarSiguiente,
     finalizarEvaluacion,

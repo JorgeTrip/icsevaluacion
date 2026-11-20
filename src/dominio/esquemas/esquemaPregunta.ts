@@ -22,6 +22,7 @@ export const EsquemaPregunta = z.object({
   tipo: z.nativeEnum(TipoPregunta),
   enunciado: z.string().min(1, 'El enunciado no puede estar vacío.'),
   opciones: z.array(EsquemaOpcionPregunta),
+  opcionesDestino: z.array(EsquemaOpcionPregunta).optional(),
   respuestasCorrectas: z.array(z.string()).min(1, 'Debe existir al menos una respuesta correcta.'),
   justificacion: z.string().min(1, 'La justificación teórica es requerida.'),
   fuente: z.string().optional(),

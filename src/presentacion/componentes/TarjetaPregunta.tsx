@@ -17,6 +17,7 @@ const etiquetasTipo: Record<TipoPregunta, string> = {
   [TipoPregunta.VERDADERO_FALSO]: 'Verdadero o Falso',
   [TipoPregunta.OPCION_UNICA]: 'Opción Única',
   [TipoPregunta.SELECCION_MULTIPLE]: 'Selección Múltiple (una o varias)',
+  [TipoPregunta.UNIR_CONCEPTOS]: 'Unir Conceptos con Flechas',
 };
 
 export const TarjetaPregunta: React.FC<PropsTarjetaPregunta> = ({

@@ -1,10 +1,10 @@
 /**
  * @file PantallaEvaluacion.tsx
- * @description Pantalla principal de respuesta interactiva y retroalimentación inmediata.
+ * @description Pantalla principal de respuesta interactiva con soporte para opciones y emparejamiento.
  */
 
 import React from 'react';
-import { Pregunta } from '../../dominio/modelos/tiposPregunta.ts';
+import { Pregunta, TipoPregunta } from '../../dominio/modelos/tiposPregunta.ts';
 import {
   ConfiguracionSesion,
   ResultadoEvaluacionPregunta,
@@ -13,6 +13,7 @@ import { EstadoPreguntaActiva } from '../../aplicacion/hooks/useSesionEvaluacion
 import { BarraProgreso } from '../componentes/BarraProgreso.tsx';
 import { TarjetaPregunta } from '../componentes/TarjetaPregunta.tsx';
 import { OpcionesPregunta } from '../componentes/OpcionesPregunta.tsx';
+import { PreguntaUnirConceptos } from '../componentes/PreguntaUnirConceptos.tsx';
 import { JustificacionFeedback } from '../componentes/JustificacionFeedback.tsx';
 import { AlertCircle } from 'lucide-react';
 
@@ -25,6 +26,7 @@ interface PropsPantallaEvaluacion {
   resultadoActual: ResultadoEvaluacionPregunta | null;
   estadoPregunta: EstadoPreguntaActiva;
   alSeleccionarOpcion: (idOpcion: string) => void;
+  alCambiarSeleccionadas: (nuevas: string[]) => void;
   alConfirmarMultiple: () => void;
   alAvanzarSiguiente: () => void;
   alFinalizarSesion: () => void;
@@ -40,6 +42,7 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
   resultadoActual,
   estadoPregunta,
   alSeleccionarOpcion,
+  alCambiarSeleccionadas,
   alConfirmarMultiple,
   alAvanzarSiguiente,
   alFinalizarSesion,
@@ -54,9 +57,6 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
         <h3 className="text-lg font-semibold text-[#F2F2F7]">
           No hay preguntas disponibles con los filtros seleccionados
         </h3>
-        <p className="text-xs sm:text-sm text-[#AEAEB2] max-w-sm mx-auto">
-          Prueba ampliando los filtros de cuatrimestre o seleccionando más unidades temáticas.
-        </p>
         <button
           onClick={alVolverAInicio}
           className="py-2.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors"
@@ -72,7 +72,6 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
 
   return (
     <div className="space-y-5 pb-8 animate-fadeIn">
-      {/* Barra de progreso e indicadores de cuatrimestre/unidad */}
       <BarraProgreso
         indiceActual={indiceActual}
         totalPreguntas={totalPreguntas}
@@ -82,25 +81,34 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
         alFinalizar={alFinalizarSesion}
       />
 
-      {/* Tarjeta del reactivo */}
       <TarjetaPregunta
         enunciado={pregunta.enunciado}
         tipo={pregunta.tipo}
         fuente={pregunta.fuente}
       />
 
-      {/* Opciones interactivas táctiles */}
-      <OpcionesPregunta
-        opciones={pregunta.opciones}
-        tipo={pregunta.tipo}
-        opcionesSeleccionadas={opcionesSeleccionadas}
-        respuestasCorrectas={pregunta.respuestasCorrectas}
-        estaEvaluada={estadoPregunta === 'EVALUADA'}
-        alSeleccionar={alSeleccionarOpcion}
-        alConfirmarMultiple={alConfirmarMultiple}
-      />
+      {pregunta.tipo === TipoPregunta.UNIR_CONCEPTOS ? (
+        <PreguntaUnirConceptos
+          opcionesOrigen={pregunta.opciones}
+          opcionesDestino={pregunta.opcionesDestino || []}
+          opcionesSeleccionadas={opcionesSeleccionadas}
+          respuestasCorrectas={pregunta.respuestasCorrectas}
+          estaEvaluada={estadoPregunta === 'EVALUADA'}
+          alCambiarPares={alCambiarSeleccionadas}
+          alConfirmar={alConfirmarMultiple}
+        />
+      ) : (
+        <OpcionesPregunta
+          opciones={pregunta.opciones}
+          tipo={pregunta.tipo}
+          opcionesSeleccionadas={opcionesSeleccionadas}
+          respuestasCorrectas={pregunta.respuestasCorrectas}
+          estaEvaluada={estadoPregunta === 'EVALUADA'}
+          alSeleccionar={alSeleccionarOpcion}
+          alConfirmarMultiple={alConfirmarMultiple}
+        />
+      )}
 
-      {/* Justificación y botón de avance cuando la respuesta está evaluada */}
       {estadoPregunta === 'EVALUADA' && resultadoActual && (
         <JustificacionFeedback
           estado={resultadoActual.estado}

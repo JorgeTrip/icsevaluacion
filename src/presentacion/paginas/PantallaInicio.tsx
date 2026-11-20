@@ -102,11 +102,12 @@ export const PantallaInicio: React.FC<PropsPantallaInicio> = ({
           <label className="text-xs font-semibold text-[#AEAEB2] uppercase tracking-wider">
             4. Formato de Preguntas
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
               { id: 'TODOS', label: 'Todos' },
               { id: 'VF', label: 'Solo V/F' },
               { id: 'CHOICE', label: 'Solo Choice' },
+              { id: 'UNIR', label: 'Solo Unir' },
             ].map((t) => (
               <button
                 key={t.id}

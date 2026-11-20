@@ -50,6 +50,7 @@ export function App() {
     respuestasRegistradas,
     iniciarEvaluacion,
     seleccionarOpcion,
+    establecerOpcionesSeleccionadas,
     confirmarRespuestaMultiple,
     avanzarSiguiente,
     finalizarEvaluacion,
@@ -90,6 +91,7 @@ export function App() {
             alSeleccionarOpcion={(idOpcion) =>
               seleccionarOpcion(idOpcion, registrarRespuesta)
             }
+            alCambiarSeleccionadas={establecerOpcionesSeleccionadas}
             alConfirmarMultiple={() =>
               confirmarRespuestaMultiple(registrarRespuesta)
             }

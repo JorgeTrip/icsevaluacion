@@ -6,7 +6,7 @@
 import { Cuatrimestre, UnidadTematica, TipoPregunta, EstadoResultado, Pregunta } from './tiposPregunta.ts';
 
 export type FiltroCuatrimestre = Cuatrimestre | 'AMBOS';
-export type FiltroTipoPregunta = 'TODOS' | 'VF' | 'CHOICE';
+export type FiltroTipoPregunta = 'TODOS' | 'VF' | 'CHOICE' | 'UNIR';
 export type TamanoTanda = 10 | 20 | 30 | 'INFINITA';
 export type ModoEvaluacion = 'INMEDIATO' | 'REPASO_FALLOS';
 

@@ -4,118 +4,44 @@
 
 ---
 
-## 1. Visión y Objetivos del Sistema
-
-### 1.1 Propósito
-Desarrollar una aplicación web interactiva, optimizada con enfoque **Mobile-First** (y adaptable a escritorio), destinada a que los estudiantes de la materia **Ingeniería y Calidad de Software** de la **UTN - Facultad Regional Buenos Aires** (Cátedra: Marcelo Dalceggio, Diego Mansilla) evalúen sus conocimientos teóricos y prácticos mediante preguntas de parciales reales y bibliografía de la materia.
-
-### 1.2 Principios Clave de Diseño y Experiencia de Usuario
-- **Mobile-First Real**: Navegación ágil con pocos toques, botones táctiles grandes (>44px de área de contacto), tipografía legible y transiciones fluidas.
-- **Estética Grises Pro**: Modo oscuro por defecto con escala de grises profundos (sin negro puro `#000000` ni blanco puro), bordes suaves, microinteracciones cuidadas y retroalimentación táctil/visual inmediata.
-- **Feedback Inmediato**: Al seleccionar o confirmar la respuesta, el alumno ve de inmediato si acertó, cuáles eran las opciones correctas y la justificación técnica fundamentada en la bibliografía oficial (SWEBoK, ISO 25010, McConell, Wiegers, etc.).
-- **Soberanía y Privacidad de Datos**: Funcionamiento 100% cliente (SPA) sin backend obligatorio; estadísticas guardadas en LocalStorage con capacidad de exportar e importar historial completo en formato JSON.
-- **Despliegue Continuo**: Alojamiento estático en GitHub Pages desde el repositorio `icsevaluacion`.
+## 1. Visión y Objetivos
+- **Propósito**: Web App Mobile-First para evaluar conocimientos de Ingeniería y Calidad de Software (UTN FRBA, Cátedra: Marcelo Dalceggio y Diego Mansilla).
+- **Principios**: Mobile-First (targets > 44px), paleta Grises Pro (sin negro ni blanco puro), feedback inmediato con justificación teórica, soberanía de datos (LocalStorage y JSON) y despliegue en GitHub Pages.
 
 ---
 
 ## 2. Requerimientos Funcionales (Casos de Uso)
 
-### CU-01: Configuración de la Sesión de Evaluación
-- **Actor**: Estudiante / Alumno.
-- **Descripción**: El alumno define los parámetros del lote de preguntas a responder antes de comenzar la sesión.
-- **Criterios de Entrada**:
-  - **Alcance / Cuatrimestre**:
-    - Primer Cuatrimestre (1C / Parcial 1: Unidades 1 a 4).
-    - Segundo Cuatrimestre (2C / Parcial 2: Unidades 5 y 6).
-    - Toda la Materia (1C + 2C).
-  - **Unidades Temáticas Específicas** (filtro opcional o acumulativo):
-    - U1: Introducción a la Ingeniería de Software (SWEBoK, McConnell, Ishikawa).
-    - U2: Modelos de Calidad de Software (ISO 25000 / 25010, Costos de calidad, McCall, CMMI).
-    - U3: Software Engineering Approaches (Cynefin, Scrum, Kanban, Lean, Timebox).
-    - U4: Estimaciones de Software (FP, UCP, Object Points, Planning Poker, Leyes de Brooks/Parkinson).
-    - U5: Software Configuration Management (SCM, Baselines, SCCB, Git Branching, CI/CD).
-    - U6: Testing de Software (Niveles, Caja Negra/Blanca, McCabe, Equivalencias, Exploratory).
-  - **Tipo de Preguntas**:
-    - Todas (Verdadero/Falso + Multiple Choice).
-    - Solo Verdadero o Falso (V/F).
-    - Solo Multiple Choice (Opción Única y Selección Múltiple).
-  - **Tamaño de la Tanda**:
-    - 10 preguntas.
-    - 20 preguntas.
-    - 30 preguntas.
-    - Modo Infinito (hasta que el alumno decida finalizar manualmente o se agoten las preguntas disponibles).
-  - **Modo de Operación**:
-    - Modo Feedback Inmediato (estándar).
-    - Modo Repaso de Fallos (preguntas previamente falladas y guardadas en el historial).
-
----
+### CU-01: Configuración de la Sesión
+- **Alcance**: 1er Cuatrimestre (U1 a U4), 2do Cuatrimestre (U5 y U6) o Toda la Materia.
+- **Unidades Específicas**: U1 (Intro), U2 (Calidad), U3 (Approaches), U4 (Estimaciones), U5 (SCM), U6 (Testing).
+- **Formatos**: Todos, Solo Verdadero/Falso o Solo Multiple Choice.
+- **Tamaños**: 10, 20, 30 preguntas o Modo Infinito.
+- **Modos**: Evaluación Inmediata o Repaso de Fallos.
 
 ### CU-02: Respuesta y Retroalimentación Inmediata
-- **Actor**: Estudiante.
-- **Descripción**: El estudiante visualiza una pregunta por pantalla (presentación de tarjeta limpia y minimalista) y emite su respuesta.
-- **Reglas de Interacción**:
-  - En preguntas **Verdadero/Falso**: Dos botones directos táctiles ("Verdadero" y "Falso"). Al presionar uno, se califica al instante.
-  - En preguntas de **Opción Única**: Lista de alternativas tipo radio. Al tocar una opción, se confirma y califica de inmediato.
-  - En preguntas de **Selección Múltiple** (varias respuestas correctas): Casillas de verificación (checkboxes). El alumno selecciona las opciones que considera correctas y presiona un botón táctil flotante "Comprobar Respuesta".
-  - **Retroalimentación Visual**:
-    - Opciones correctas: Resaltado verde esmeralda suave con ícono de check (✓).
-    - Opciones incorrectas seleccionadas: Resaltado rojo apagado con ícono de cruz (✗).
-    - Estado de la respuesta: Mensaje de "¡Correcto!", "Parcialmente correcto" o "Incorrecto".
-    - Tarjeta expansible de **Justificación Teórica**: Explica la razón respaldada en el material de cátedra.
-  - Botón táctil para avanzar a la siguiente pregunta: "Siguiente Pregunta ➔" o "Finalizar Evaluación".
+- **V/F y Opción Única**: Selección directa con calificación instantánea.
+- **Selección Múltiple**: Checkboxes con botón "Comprobar Respuesta".
+- **Retroalimentación Visual**: Opciones correctas en verde (✓), incorrectas en rojo (✗), justificación de cátedra y botón para avanzar.
 
----
+### CU-03: Cálculo de Puntuación Proporcional
+- V/F y Única: 1.0 (Acierto) o 0.0 (Fallo).
+- Selección Múltiple con penalización: $P = \max\left(0, \frac{A - E}{C}\right)$.
 
-### CU-03: Cálculo de Puntuación Proporcional con Penalización
-- **Actor**: Sistema.
-- **Fórmula de Calificación**:
-  - **Pregunta V/F y Opción Única**:
-    - Acierto: 1.0 punto.
-    - Error: 0.0 puntos.
-  - **Pregunta de Selección Múltiple** con $C$ opciones correctas totales y $N$ opciones del enunciado:
-    - Sea $A$ la cantidad de opciones correctas marcadas por el alumno.
-    - Sea $E$ la cantidad de opciones incorrectas marcadas por el alumno.
-    - Puntaje obtenido:
-      $$P = \max\left(0, \frac{A - E}{C}\right)$$
-    - Si $P = 1.0 \implies$ Resultado: **Correcto**.
-    - Si $0 < P < 1.0 \implies$ Resultado: **Parcialmente Correcto**.
-    - Si $P = 0.0 \implies$ Resultado: **Incorrecto**.
-
----
-
-### CU-04: Finalización de Sesión e Informe de Resultados
-- **Actor**: Estudiante.
-- **Descripción**: Al completarse la tanda o al presionar "Finalizar Evaluación" en modo infinito, se despliega una pantalla de cierre con métricas claras.
-- **Contenido del Informe**:
-  - Calificación total (Puntos obtenidos / Puntos posibles) y porcentaje de efectividad.
-  - Desglose de preguntas: Acertadas, Parciales, Falladas.
-  - Desglose por Unidad Temática (gráfico de barras táctil con tasa de acierto por unidad).
-  - Listado de preguntas respondidas para revisión rápida.
-  - Botones de acción:
-    - "Practicar Fallos" (inicia de inmediato una tanda con los errores cometidos).
-    - "Nueva Evaluación" (vuelve al configurador de sesión).
-    - "Exportar Resultados" (guarda el resumen de la sesión).
-
----
+### CU-04: Informe de Resultados
+- Puntaje final, porcentaje, desglose (correctas, parciales, falladas) y rendimiento por unidad temática.
 
 ### CU-05: Modo Repaso de Fallos
-- **Actor**: Estudiante.
-- **Descripción**: Permite reintentar las preguntas que el estudiante ha contestado de forma errónea o parcial en sesiones previas.
-- **Reglas**:
-  - El sistema extrae los identificadores de preguntas con fallos registrados en `LocalStorage`.
-  - Si una pregunta es respondida de forma 100% correcta durante el repaso, se remueve de la lista de fallos pendientes (o reduce su contador de fallos).
-  - Si el alumno no tiene fallos registrados, la opción se deshabilita con un mensaje explicativo ("¡No tienes preguntas pendientes de repaso!").
+- Práctica dirigida de preguntas falladas previamente en LocalStorage. Si se acierta al 100%, se remueve del historial de fallos.
 
----
+### CU-06: Persistencia y Soberanía de Datos
+- LocalStorage automático, exportación e importación de JSON validado con Zod y reseteo a cero.
 
-### CU-06: Persistencia y Soberanía de Datos (LocalStorage y JSON)
-- **Actor**: Estudiante.
-- **Descripción**: El alumno controla totalmente su historial y estadísticas sin depender de servidores externos.
-- **Reglas**:
-  - Guardado automático en `LocalStorage` bajo una clave única (`ics_evaluacion_datos_v1`).
-  - Funcionalidad de **Exportar Historial**: Descarga un archivo `ics-historial-[fecha].json`.
-  - Funcionalidad de **Importar Historial**: Permite cargar un archivo JSON previamente exportado, validando su esquema estricto mediante Zod antes de escribir en el almacenamiento.
-  - Funcionalidad de **Borrar Historial**: Confirmación en dos pasos para restablecer estadísticas a cero.
+### CU-07: Unir Conceptos mediante Flechas Interactivas (Emparejamiento)
+- Dos columnas paralelas (Origen A y Destino B). El alumno toca origen y luego destino para trazar una flecha SVG interactiva.
+- Tocar un par permite desvincular o reasignar flechas antes de finalizar.
+- Botón "Comprobar Respuestas" evalúa los pares: flechas verdes (aciertos), flechas rojas (errores) y líneas punteadas para la solución correcta.
+- Puntaje proporcional sin penalización: $P = \frac{\text{Aciertos}}{\text{Total Pares}}$.
 
 ---
 
@@ -170,6 +96,20 @@ Cuando selecciona un archivo JSON alterado, mal formado o con datos que no cumpl
 Entonces el sistema rechaza la importación de manera segura
 Y no modifica el LocalStorage preexistente
 Y muestra un mensaje de alerta legible: "El archivo de respaldo no tiene un formato válido"
+```
+
+---
+
+### Escenario 6: Unir conceptos de Scrum con sus definiciones mediante flechas interactivas
+```gherkin
+Dado que el estudiante recibe una pregunta de tipo "Unir Conceptos" con 4 ceremonias en la Columna A y 4 definiciones en la Columna B
+Cuando el estudiante toca "Sprint Review" en la Columna A
+Y luego toca "Revisa el éxito o no del sprint" en la Columna B
+Entonces el sistema traza una flecha SVG visible entre ambos elementos y los asocia como par
+Cuando el estudiante presiona "Comprobar Respuestas"
+Entonces el sistema evalúa la correspondencia de todos los pares
+Y resalta las flechas acertadas en verde y las equivocadas en rojo
+Y muestra la justificación oficial del material de Scrum
 ```
 
 ---

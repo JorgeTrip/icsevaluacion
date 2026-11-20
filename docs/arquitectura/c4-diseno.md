@@ -146,6 +146,7 @@ src/
     │   ├── CabeceraApp.tsx        # Navegación compacta y botón de tema
     │   ├── TarjetaPregunta.tsx    # Enunciado, tags de unidad y fuente
     │   ├── OpcionesPregunta.tsx   # Alternativas táctiles (V/F, Radio, Checkboxes)
+    │   ├── PreguntaUnirConceptos.tsx # Dos columnas con flechas interactivas (SVG)
     │   ├── JustificacionFeedback.tsx # Panel de fundamentación teórica
     │   └── MetricasResumen.tsx    # Gráficos táctiles de acierto por unidad
     └── estilos/

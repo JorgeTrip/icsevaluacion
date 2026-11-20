@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import bancoPreguntas from '../../src/infraestructura/datos/bancoPreguntas.json';
+import bancoPreguntasRaw from '../../src/infraestructura/datos/bancoPreguntas.json';
 import { EsquemaBancoPreguntas } from '../../src/dominio/esquemas/esquemaPregunta.ts';
+import { Pregunta } from '../../dominio/modelos/tiposPregunta.ts';
+
+const bancoPreguntas = bancoPreguntasRaw as Pregunta[];
 
 describe('Infraestructura: Validación del Dataset de Preguntas', () => {
   it('debe contener más de 200 preguntas extraídas de los exámenes reales', () => {
@@ -9,9 +12,6 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
 
   it('debe validar la totalidad del banco contra el esquema Zod sin errores', () => {
     const validacion = EsquemaBancoPreguntas.safeParse(bancoPreguntas);
-    if (!validacion.success) {
-      console.error('Errores de validación:', validacion.error.format());
-    }
     expect(validacion.success).toBe(true);
   });
 
@@ -23,19 +23,26 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
 
   it('debe contener preguntas de todas las unidades (U1 a U6)', () => {
     const unidades = new Set(bancoPreguntas.map((p) => p.unidad));
-    expect(unidades.has('U1')).toBe(true);
-    expect(unidades.has('U2')).toBe(true);
-    expect(unidades.has('U3')).toBe(true);
-    expect(unidades.has('U4')).toBe(true);
-    expect(unidades.has('U5')).toBe(true);
-    expect(unidades.has('U6')).toBe(true);
+    for (const u of ['U1', 'U2', 'U3', 'U4', 'U5', 'U6']) {
+      expect(unidades.has(u as any)).toBe(true);
+    }
   });
 
-  it('debe asegurar que toda opción en respuestasCorrectas existe en opciones de la pregunta', () => {
+  it('debe asegurar la consistencia referencial de las respuestas correctas', () => {
     for (const preg of bancoPreguntas) {
-      const idsOpciones = new Set(preg.opciones.map((o) => o.id));
-      for (const idCorrecta of preg.respuestasCorrectas) {
-        expect(idsOpciones.has(idCorrecta)).toBe(true);
+      const idsOrigen = new Set(preg.opciones.map((o) => o.id));
+
+      if (preg.tipo === 'UNIR_CONCEPTOS') {
+        const idsDestino = new Set(preg.opcionesDestino?.map((o) => o.id) || []);
+        for (const par of preg.respuestasCorrectas) {
+          const [origen, destino] = par.split(':');
+          expect(idsOrigen.has(origen)).toBe(true);
+          expect(idsDestino.has(destino)).toBe(true);
+        }
+      } else {
+        for (const idCorrecta of preg.respuestasCorrectas) {
+          expect(idsOrigen.has(idCorrecta)).toBe(true);
+        }
       }
     }
   });
