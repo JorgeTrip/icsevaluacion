@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.1.6",
+    "fecha": "2026-11-23",
+    "titulo": "Renderizado estructurado de subítems y bloques de código en enunciados",
+    "cambios": [
+      "feat: Se implementa el servicio formateadorEnunciado para separar automáticamente subítems numerados (1-, 1., 1)), viñetas (•, ●) y fragmentos de código dentro de los enunciados",
+      "feat: Se rediseña TarjetaPregunta para mostrar los subítems como tarjetas verticales con numeración destacada y bloques de código monoespaciados legibles en desktop y móvil",
+      "fix: Se pulen enunciados de Calidad, Timebox y Testing (u2-018, u1-055, u1-078, u6-160, u6-187, u5-118) eliminando duplicaciones numéricas y texto residual",
+      "test: Se incorporan pruebas TDD unitarias para validar el formateador de enunciados sobre escenarios simples, mixtos y de código"
+    ]
+  },
+  {
     "version": "1.1.5",
     "fecha": "2026-11-23",
     "titulo": "Restitución de enunciados truncados, depuración de siglas duplicadas y corrección de claves",
