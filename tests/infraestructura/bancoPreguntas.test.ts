@@ -49,18 +49,28 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
 
   it('no debe contener enunciados u opciones con respuestas filtradas o residuos de Moodle', () => {
     for (const preg of bancoPreguntas) {
-      // Ningún enunciado debe iniciar con comillas, V/F o viñetas
+      // Ningún enunciado debe iniciar con comillas, V/F, minúsculas o viñetas
       expect(preg.enunciado).not.toMatch(/^['"]?(?:Verdadero|Falso)['"]?/i);
-      expect(preg.enunciado).not.toMatch(/^['"✅•\-\.]/);
+      expect(preg.enunciado).not.toMatch(/^['"✅👇•\-\.]/);
+      expect(preg.enunciado).not.toMatch(/^[a-záéíóúñ]/);
+      expect(preg.enunciado).not.toMatch(/\bMarque\s+la\s*:?$/i);
       expect(preg.enunciado).not.toContain('Sin contestar');
       expect(preg.enunciado).not.toContain('Respuesta incorrecta');
       expect(preg.enunciado).not.toContain('La respuesta correcta es');
+      expect(preg.justificacion).not.toContain('principios de calidad de la cátedra');
+      expect(preg.justificacion).not.toContain('Respuesta oficial');
 
-      // Las opciones no deben tener cadenas espurias
+      // Ningún texto debe contener expansiones de siglas duplicadas ') ('
+      expect(preg.enunciado).not.toContain(') (');
+      expect(preg.justificacion).not.toContain(') (');
+
+      // Las opciones no deben tener cadenas espurias ni placeholders
       for (const opt of preg.opciones) {
         expect(opt.texto).not.toContain('Respuesta incorrecta');
         expect(opt.texto).not.toContain('Respuesta correcta');
         expect(opt.texto).not.toContain('Sin contestar');
+        expect(opt.texto).not.toContain('Opción alternativa de evaluación');
+        expect(opt.texto).not.toContain(') (');
       }
 
       if (preg.opcionesDestino) {
@@ -68,6 +78,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
           expect(optDest.texto).not.toContain('Respuesta incorrecta');
           expect(optDest.texto).not.toContain('Respuesta correcta');
           expect(optDest.texto).not.toContain('Sin contestar');
+          expect(optDest.texto).not.toContain(') (');
         }
       }
     }

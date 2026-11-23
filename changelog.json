@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.1.5",
+    "fecha": "2026-11-23",
+    "titulo": "Restitución de enunciados truncados, depuración de siglas duplicadas y corrección de claves",
+    "cambios": [
+      "fix: Se eliminan las 117 expansiones duplicadas/triplicadas de siglas entre paréntesis en enunciados, opciones y justificaciones",
+      "fix: Se restituyen enunciados truncados ('Marque la:', 'u1-124', 'u5-122', 'u5-125', 'u3-046', 'u1-108', 'u1-177', 'u2-013', etc.) contrastados con los exámenes oficiales",
+      "fix: Se reemplazan las opciones placeholder ('Opción alternativa de evaluación') por sus alternativas reales de parcial",
+      "fix: Se corrigen claves de respuesta desfasadas (como 'u1-124' rollbacks en producción, 'u6-153', 'u1-139', 'u4-105', 'u1-106', 'u1-107' y complejidad ciclomática con switch)",
+      "test: Se endurecen las pruebas unitarias para impedir regresiones de siglas duplicadas, enunciados truncados o placeholders"
+    ]
+  },
+  {
     "version": "1.1.4",
     "fecha": "2026-11-23",
     "titulo": "Saneamiento integral de respuestas filtradas en enunciados y blindaje de siglas",
