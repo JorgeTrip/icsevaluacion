@@ -60,9 +60,15 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
       expect(preg.justificacion).not.toContain('principios de calidad de la cátedra');
       expect(preg.justificacion).not.toContain('Respuesta oficial');
 
-      // Ningún texto debe contener expansiones de siglas duplicadas ') ('
+      // Ningún texto debe contener expansiones de siglas duplicadas ') (' ni paréntesis desbalanceados
       expect(preg.enunciado).not.toContain(') (');
       expect(preg.justificacion).not.toContain(') (');
+      const validarBalance = (txt: string) => {
+        const limpio = txt.replace(/\b[1-9]\)/g, '');
+        expect((limpio.match(/\(/g) || []).length).toBe((limpio.match(/\)/g) || []).length);
+      };
+      validarBalance(preg.enunciado);
+      validarBalance(preg.justificacion);
 
       // Las opciones no deben tener cadenas espurias ni placeholders
       for (const opt of preg.opciones) {
@@ -71,6 +77,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
         expect(opt.texto).not.toContain('Sin contestar');
         expect(opt.texto).not.toContain('Opción alternativa de evaluación');
         expect(opt.texto).not.toContain(') (');
+        validarBalance(opt.texto);
       }
 
       if (preg.opcionesDestino) {
@@ -79,6 +86,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
           expect(optDest.texto).not.toContain('Respuesta correcta');
           expect(optDest.texto).not.toContain('Sin contestar');
           expect(optDest.texto).not.toContain(') (');
+          validarBalance(optDest.texto);
         }
       }
     }

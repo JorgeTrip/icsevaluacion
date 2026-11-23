@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.1.7",
+    "fecha": "2026-11-23",
+    "titulo": "Corrección de clave múltiple u1-142, sigla CI/CV en u5-146 y balanceo total de paréntesis",
+    "cambios": [
+      "fix: Se corrige la clave de respuestas de u1-142 ('Indique cuales son verdaderos de acuerdo a lo visto en clase') incorporando todas las opciones correctas ['a','b','c','d','e'] según los exámenes oficiales (págs. 243-244)",
+      "fix: Se corrige la expansión errónea de CI en u5-146 (Clases Inválidas y Clases Válidas en particiones de equivalencia)",
+      "fix: Se balancea el 100% de los paréntesis en enunciados, opciones y justificaciones de todo el banco de preguntas",
+      "test: Se añade verificación automatizada de balanceo estricto de paréntesis en bancoPreguntas.test.ts"
+    ]
+  },
+  {
     "version": "1.1.6",
     "fecha": "2026-11-23",
     "titulo": "Renderizado estructurado de subítems y bloques de código en enunciados",

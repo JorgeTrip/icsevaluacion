@@ -40,7 +40,7 @@ export const CabeceraApp: React.FC<PropsCabeceraApp> = ({
                 ICS Evaluación
               </h1>
               <span className="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1 py-0.5 rounded font-mono">
-                v1.1.6
+                v1.1.7
               </span>
             </div>
             <p className="text-[10px] text-[#8E8E93] leading-none">
