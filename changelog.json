@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.1.4",
+    "fecha": "2026-11-23",
+    "titulo": "Saneamiento integral de respuestas filtradas en enunciados y blindaje de siglas",
+    "cambios": [
+      "fix: Se purgan definitivamente respuestas filtradas del PDF en los enunciados (como 'Falso' en u1-005, 'Verdadero' en u1-006 y residuos de u1-004)",
+      "fix: Se corrigen las claves de respuesta de las preguntas de espina de pescado (Ishikawa) y validación/verificación (u6-204)",
+      "fix: Se transforman preguntas de emparejamiento rotas en preguntas interactivas UNIR_CONCEPTOS con flechas SVG (u1-015, u1-033, u2-034, u1-035, u2-036, u1-110, u6-155)",
+      "fix: Se expande el 100% de las siglas técnicas (TDD, BDD, ATDD, CMMI, PSP, TSP, SCM, SQA, ITIL, CCB, CPI, SPI, EVM, IFPUG, COCOMO, KLOC, SLOC, UAT, SWEBoK, IEEE, GQM, MTBF) con su significado completo entre paréntesis",
+      "test: Se incorporan pruebas automatizadas de regresión para asegurar 0 filtraciones y 0 residuos de Moodle en todo el dataset"
+    ]
+  },
+  {
     "version": "1.1.3",
     "fecha": "2026-11-19",
     "titulo": "Renovación pedagógica de justificaciones conceptuales",

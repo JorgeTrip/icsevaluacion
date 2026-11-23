@@ -46,4 +46,30 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
       }
     }
   });
+
+  it('no debe contener enunciados u opciones con respuestas filtradas o residuos de Moodle', () => {
+    for (const preg of bancoPreguntas) {
+      // Ningún enunciado debe iniciar con comillas, V/F o viñetas
+      expect(preg.enunciado).not.toMatch(/^['"]?(?:Verdadero|Falso)['"]?/i);
+      expect(preg.enunciado).not.toMatch(/^['"✅•\-\.]/);
+      expect(preg.enunciado).not.toContain('Sin contestar');
+      expect(preg.enunciado).not.toContain('Respuesta incorrecta');
+      expect(preg.enunciado).not.toContain('La respuesta correcta es');
+
+      // Las opciones no deben tener cadenas espurias
+      for (const opt of preg.opciones) {
+        expect(opt.texto).not.toContain('Respuesta incorrecta');
+        expect(opt.texto).not.toContain('Respuesta correcta');
+        expect(opt.texto).not.toContain('Sin contestar');
+      }
+
+      if (preg.opcionesDestino) {
+        for (const optDest of preg.opcionesDestino) {
+          expect(optDest.texto).not.toContain('Respuesta incorrecta');
+          expect(optDest.texto).not.toContain('Respuesta correcta');
+          expect(optDest.texto).not.toContain('Sin contestar');
+        }
+      }
+    }
+  });
 });
