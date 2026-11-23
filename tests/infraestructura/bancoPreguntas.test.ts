@@ -43,6 +43,11 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
         for (const idCorrecta of preg.respuestasCorrectas) {
           expect(idsOrigen.has(idCorrecta)).toBe(true);
         }
+        // Ninguna pregunta de opción única o múltiple puede tener saltos o ausencia de opción 'a'
+        if (preg.tipo !== 'VERDADERO_FALSO') {
+          const esperados = preg.opciones.map((_, idx) => String.fromCharCode(97 + idx));
+          expect(preg.opciones.map((o) => o.id)).toEqual(esperados);
+        }
       }
     }
   });

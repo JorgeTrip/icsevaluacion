@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.1.8",
+    "fecha": "2026-11-23",
+    "titulo": "Restitución de 5 preguntas con opción 'a' absorbida en el enunciado",
+    "cambios": [
+      "fix: Se restituye la pregunta completa y su opción correcta 'a' en u2-043 (CMMI), u1-080 (Esfuerzo vs Tiempo / Ley de Brooks), u1-178 (Prevención de defectos), u1-188 y u1-189 (Testing de Caja Blanca)",
+      "test: Se añade aserción estructural en bancoPreguntas.test.ts exigiendo secuencia íntegra de IDs ['a', 'b', 'c', ...] para impedir que falte la opción inicial"
+    ]
+  },
+  {
     "version": "1.1.7",
     "fecha": "2026-11-23",
     "titulo": "Corrección de clave múltiple u1-142, sigla CI/CV en u5-146 y balanceo total de paréntesis",
