@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.1.9",
+    "fecha": "2026-11-23",
+    "titulo": "Indicador visual 'Faltó marcar' en selección múltiple y justificación de u5-143",
+    "cambios": [
+      "feat: Se diferencia visualmente en OpcionesPregunta.tsx entre opciones correctas marcadas (verde sólido con check) y opciones correctas omitidas (ámbar punteado con etiqueta 'Faltó marcar' y casilla vacía) al evaluar Selección Múltiple",
+      "fix: Se corrige la justificación teórica desfasada de u5-143 (Criterios de Identificación de Ítems de Configuración en SCM)",
+      "test: Se agrega prueba TDD de componente en tests/presentacion/OpcionesPregunta.test.tsx"
+    ]
+  },
+  {
     "version": "1.1.8",
     "fecha": "2026-11-23",
     "titulo": "Restitución de 5 preguntas con opción 'a' absorbida en el enunciado",

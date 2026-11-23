@@ -41,9 +41,16 @@ export const OpcionesPregunta: React.FC<PropsOpcionesPregunta> = ({
           let iconoEstado = null;
 
           if (estaEvaluada) {
-            if (esCorrecta) {
+            if (esCorrecta && (!esMultiple || estaSeleccionada)) {
               estilosTarjeta = 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-medium';
               iconoEstado = <Check className="w-5 h-5 text-emerald-400 shrink-0" />;
+            } else if (esCorrecta && esMultiple && !estaSeleccionada) {
+              estilosTarjeta = 'bg-amber-500/10 border-amber-500/50 border-dashed text-amber-300 font-medium';
+              iconoEstado = (
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
+                  Faltó marcar
+                </span>
+              );
             } else if (estaSeleccionada && !esCorrecta) {
               estilosTarjeta = 'bg-red-500/15 border-red-500/40 text-red-300 font-medium';
               iconoEstado = <X className="w-5 h-5 text-red-400 shrink-0" />;
@@ -62,12 +69,12 @@ export const OpcionesPregunta: React.FC<PropsOpcionesPregunta> = ({
               className={`w-full text-left p-4 rounded-xl border transition-all duration-150 min-h-[52px] flex items-center justify-between gap-3 active:scale-[0.99] ${estilosTarjeta}`}
             >
               <div className="flex items-center gap-3">
-                {esMultiple && !estaEvaluada && (
+                {esMultiple && (
                   <span className="text-[#AEAEB2] shrink-0">
                     {estaSeleccionada ? (
-                      <CheckSquare className="w-5 h-5 text-emerald-400" />
+                      <CheckSquare className={`w-5 h-5 ${estaEvaluada && !esCorrecta ? 'text-red-400' : 'text-emerald-400'}`} />
                     ) : (
-                      <Square className="w-5 h-5" />
+                      <Square className={`w-5 h-5 ${estaEvaluada && esCorrecta ? 'text-amber-400' : ''}`} />
                     )}
                   </span>
                 )}
