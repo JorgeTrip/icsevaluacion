@@ -38,15 +38,21 @@ function barajarPreguntas<T>(elementos: T[]): T[] {
 export function generarTandaPreguntas(
   bancoCompleto: Pregunta[],
   configuracion: ConfiguracionSesion,
-  idsFallosPendientes: string[] = []
+  idsFallosPendientes: string[] = [],
+  idsPracticaPendientes: string[] = []
 ): Pregunta[] {
   let preguntasFiltradas = [...bancoCompleto];
 
-  // 1. Filtro por Modo Repaso de Fallos
+  // 1. Filtro por Modo Repaso de Fallos o Práctica sin Pista
   if (configuracion.modo === 'REPASO_FALLOS') {
     const conjuntoFallos = new Set(idsFallosPendientes);
     preguntasFiltradas = preguntasFiltradas.filter((p) =>
       conjuntoFallos.has(p.id)
+    );
+  } else if (configuracion.modo === 'REPASO_PRACTICA') {
+    const conjuntoPractica = new Set(idsPracticaPendientes);
+    preguntasFiltradas = preguntasFiltradas.filter((p) =>
+      conjuntoPractica.has(p.id)
     );
   }
 

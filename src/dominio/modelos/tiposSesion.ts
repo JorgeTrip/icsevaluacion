@@ -8,7 +8,7 @@ import { Cuatrimestre, UnidadTematica, TipoPregunta, EstadoResultado, Pregunta }
 export type FiltroCuatrimestre = Cuatrimestre | 'AMBOS';
 export type FiltroTipoPregunta = 'TODOS' | 'VF' | 'CHOICE' | 'UNIR';
 export type TamanoTanda = 10 | 20 | 30 | 'INFINITA';
-export type ModoEvaluacion = 'INMEDIATO' | 'REPASO_FALLOS';
+export type ModoEvaluacion = 'INMEDIATO' | 'REPASO_FALLOS' | 'REPASO_PRACTICA';
 
 export interface ConfiguracionSesion {
   cuatrimestre: FiltroCuatrimestre;
@@ -23,6 +23,7 @@ export interface ResultadoEvaluacionPregunta {
   opcionesSeleccionadas: string[];
   puntajeObtenido: number;
   estado: EstadoResultado;
+  usoPista?: boolean;
   fechaRespuesta: string;
 }
 

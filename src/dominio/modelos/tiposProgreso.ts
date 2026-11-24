@@ -29,6 +29,7 @@ export type RendimientoPorUnidad = Record<
 
 export interface ProgresoEstudiante {
   historialFallos: RegistroFallo[];
+  historialPractica: RegistroFallo[];
   estadisticas: EstadisticasGlobales;
   rendimientoPorUnidad: RendimientoPorUnidad;
 }

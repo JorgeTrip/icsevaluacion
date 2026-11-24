@@ -27,6 +27,7 @@ export function crearProgresoInicial(): ProgresoEstudiante {
 
   return {
     historialFallos: [],
+    historialPractica: [],
     estadisticas: {
       totalRespondidas: 0,
       totalCorrectas: 0,
@@ -38,31 +39,43 @@ export function crearProgresoInicial(): ProgresoEstudiante {
   };
 }
 
+function registrarEnLista(
+  lista: RegistroFallo[],
+  idPregunta: string,
+  fechaRespuesta: string
+): RegistroFallo[] {
+  const existente = lista.find((f) => f.idPregunta === idPregunta);
+  if (existente) {
+    return lista.map((f) =>
+      f.idPregunta === idPregunta
+        ? { ...f, contadorFallos: f.contadorFallos + 1, ultimoFallo: fechaRespuesta }
+        : f
+    );
+  }
+  return [...lista, { idPregunta, contadorFallos: 1, ultimoFallo: fechaRespuesta }];
+}
+
 /**
  * Actualiza el progreso de forma inmutable a partir de una nueva respuesta evaluada.
- *
- * @param progresoActual Estado vigente del progreso del alumno
- * @param pregunta Pregunta que fue contestada
- * @param resultado Resultado de la evaluación
- * @returns Nuevo estado inmutable de progreso
+ * Si se utilizó pista (hint), el acierto no suma puntaje ni aciertos y pasa a historialPractica.
  */
 export function actualizarProgresoConRespuesta(
   progresoActual: ProgresoEstudiante,
   pregunta: Pregunta,
   resultado: ResultadoEvaluacionPregunta
 ): ProgresoEstudiante {
-  const { estado, puntajeObtenido, fechaRespuesta } = resultado;
-  const esAciertoTotal = estado === 'CORRECTA';
+  const { estado, puntajeObtenido, fechaRespuesta, usoPista = false } = resultado;
+  const esAciertoValido = estado === 'CORRECTA' && !usoPista;
+  const esAciertoConPista = estado === 'CORRECTA' && usoPista;
 
   // 1. Actualizar Estadísticas Globales
   const nuevasEstadisticas = {
     ...progresoActual.estadisticas,
     totalRespondidas: progresoActual.estadisticas.totalRespondidas + 1,
     totalCorrectas:
-      progresoActual.estadisticas.totalCorrectas + (esAciertoTotal ? 1 : 0),
+      progresoActual.estadisticas.totalCorrectas + (esAciertoValido ? 1 : 0),
     totalParciales:
-      progresoActual.estadisticas.totalParciales +
-      (estado === 'PARCIAL' ? 1 : 0),
+      progresoActual.estadisticas.totalParciales + (estado === 'PARCIAL' ? 1 : 0),
     totalIncorrectas:
       progresoActual.estadisticas.totalIncorrectas +
       (estado === 'INCORRECTA' ? 1 : 0),
@@ -81,51 +94,28 @@ export function actualizarProgresoConRespuesta(
     ...progresoActual.rendimientoPorUnidad,
     [pregunta.unidad]: {
       respondidas: rendimientoUnidadActual.respondidas + 1,
-      correctas:
-        rendimientoUnidadActual.correctas + (esAciertoTotal ? 1 : 0),
+      correctas: rendimientoUnidadActual.correctas + (esAciertoValido ? 1 : 0),
     },
   };
 
-  // 3. Gestionar Historial de Fallos
+  // 3. Gestionar Historial de Fallos y Lista de Práctica (aciertos con pista)
   let nuevoHistorialFallos = [...progresoActual.historialFallos];
+  let nuevoHistorialPractica = [...(progresoActual.historialPractica || [])];
 
-  if (esAciertoTotal) {
-    // Si respondió 100% bien, se remueve de la lista de fallos pendientes
-    nuevoHistorialFallos = nuevoHistorialFallos.filter(
-      (f) => f.idPregunta !== pregunta.id
-    );
+  if (esAciertoValido) {
+    nuevoHistorialFallos = nuevoHistorialFallos.filter((f) => f.idPregunta !== pregunta.id);
+    nuevoHistorialPractica = nuevoHistorialPractica.filter((f) => f.idPregunta !== pregunta.id);
+  } else if (esAciertoConPista) {
+    nuevoHistorialFallos = nuevoHistorialFallos.filter((f) => f.idPregunta !== pregunta.id);
+    nuevoHistorialPractica = registrarEnLista(nuevoHistorialPractica, pregunta.id, fechaRespuesta);
   } else {
-    // Si falló o fue parcial, se agrega o incrementa el contador
-    const indiceExistente = nuevoHistorialFallos.findIndex(
-      (f) => f.idPregunta !== pregunta.id
-    );
-
-    const falloPrevio = nuevoHistorialFallos.find(
-      (f) => f.idPregunta === pregunta.id
-    );
-
-    if (falloPrevio) {
-      nuevoHistorialFallos = nuevoHistorialFallos.map((f) =>
-        f.idPregunta === pregunta.id
-          ? {
-              ...f,
-              contadorFallos: f.contadorFallos + 1,
-              ultimoFallo: fechaRespuesta,
-            }
-          : f
-      );
-    } else {
-      const nuevoFallo: RegistroFallo = {
-        idPregunta: pregunta.id,
-        contadorFallos: 1,
-        ultimoFallo: fechaRespuesta,
-      };
-      nuevoHistorialFallos.push(nuevoFallo);
-    }
+    nuevoHistorialPractica = nuevoHistorialPractica.filter((f) => f.idPregunta !== pregunta.id);
+    nuevoHistorialFallos = registrarEnLista(nuevoHistorialFallos, pregunta.id, fechaRespuesta);
   }
 
   return {
     historialFallos: nuevoHistorialFallos,
+    historialPractica: nuevoHistorialPractica,
     estadisticas: nuevasEstadisticas,
     rendimientoPorUnidad: nuevoRendimientoPorUnidad,
   };

@@ -29,6 +29,7 @@ export const EsquemaRespaldoProgreso = z.object({
   version: z.number().int().min(1),
   fechaExportacion: z.string(),
   historialFallos: z.array(EsquemaRegistroFallo),
+  historialPractica: z.array(EsquemaRegistroFallo).default([]),
   estadisticas: EsquemaEstadisticas,
   rendimientoPorUnidad: z.record(z.string(), EsquemaRendimientoUnidad),
 });

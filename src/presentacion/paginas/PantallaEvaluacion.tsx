@@ -3,7 +3,7 @@
  * @description Pantalla principal de respuesta interactiva con soporte para opciones y emparejamiento.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Pregunta, TipoPregunta } from '../../dominio/modelos/tiposPregunta.ts';
 import {
   ConfiguracionSesion,
@@ -15,6 +15,7 @@ import { TarjetaPregunta } from '../componentes/TarjetaPregunta.tsx';
 import { OpcionesPregunta } from '../componentes/OpcionesPregunta.tsx';
 import { PreguntaUnirConceptos } from '../componentes/PreguntaUnirConceptos.tsx';
 import { JustificacionFeedback } from '../componentes/JustificacionFeedback.tsx';
+import { ModalPista } from '../componentes/ModalPista.tsx';
 import { AlertCircle } from 'lucide-react';
 
 interface PropsPantallaEvaluacion {
@@ -25,6 +26,8 @@ interface PropsPantallaEvaluacion {
   opcionesSeleccionadas: string[];
   resultadoActual: ResultadoEvaluacionPregunta | null;
   estadoPregunta: EstadoPreguntaActiva;
+  usoPistaActual: boolean;
+  alRegistrarUsoPista: () => void;
   alSeleccionarOpcion: (idOpcion: string) => void;
   alCambiarSeleccionadas: (nuevas: string[]) => void;
   alConfirmarMultiple: () => void;
@@ -41,6 +44,8 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
   opcionesSeleccionadas,
   resultadoActual,
   estadoPregunta,
+  usoPistaActual,
+  alRegistrarUsoPista,
   alSeleccionarOpcion,
   alCambiarSeleccionadas,
   alConfirmarMultiple,
@@ -48,6 +53,7 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
   alFinalizarSesion,
   alVolverAInicio,
 }) => {
+  const [modalPistaAbierto, setModalPistaAbierto] = useState(false);
   if (!pregunta) {
     return (
       <div className="rounded-2xl p-8 bg-[#2C2C2E] border border-[#3A3A3C] text-center space-y-4 my-8">
@@ -85,7 +91,22 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
         enunciado={pregunta.enunciado}
         tipo={pregunta.tipo}
         fuente={pregunta.fuente}
+        tienePista={Boolean(pregunta.pista)}
+        usoPista={usoPistaActual}
+        alAbrirPista={() => {
+          alRegistrarUsoPista();
+          setModalPistaAbierto(true);
+        }}
       />
+
+      {pregunta.pista && (
+        <ModalPista
+          abierto={modalPistaAbierto}
+          pista={pregunta.pista}
+          yaEvaluada={estadoPregunta === 'EVALUADA'}
+          alCerrar={() => setModalPistaAbierto(false)}
+        />
+      )}
 
       {pregunta.tipo === TipoPregunta.UNIR_CONCEPTOS ? (
         <PreguntaUnirConceptos
@@ -113,9 +134,13 @@ export const PantallaEvaluacion: React.FC<PropsPantallaEvaluacion> = ({
         <JustificacionFeedback
           estado={resultadoActual.estado}
           puntajeObtenido={resultadoActual.puntajeObtenido}
+          usoPista={resultadoActual.usoPista}
           justificacion={pregunta.justificacion}
           esUltimaPregunta={esUltima}
-          alAvanzar={alAvanzarSiguiente}
+          alAvanzar={() => {
+            setModalPistaAbierto(false);
+            alAvanzarSiguiente();
+          }}
         />
       )}
     </div>

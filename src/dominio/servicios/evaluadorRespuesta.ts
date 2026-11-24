@@ -17,7 +17,8 @@ import { calcularPuntajeRespuesta } from './calculadorPuntaje.ts';
  */
 export function evaluarPregunta(
   pregunta: Pregunta,
-  opcionesSeleccionadas: string[]
+  opcionesSeleccionadas: string[],
+  usoPista: boolean = false
 ): ResultadoEvaluacionPregunta {
   if (!opcionesSeleccionadas || !Array.isArray(opcionesSeleccionadas)) {
     throw new Error('Las opciones seleccionadas deben ser un arreglo válido.');
@@ -32,8 +33,9 @@ export function evaluarPregunta(
   return {
     idPregunta: pregunta.id,
     opcionesSeleccionadas: [...opcionesSeleccionadas],
-    puntajeObtenido: puntaje,
+    puntajeObtenido: usoPista ? 0 : puntaje,
     estado,
+    usoPista,
     fechaRespuesta: new Date().toISOString(),
   };
 }

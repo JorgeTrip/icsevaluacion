@@ -14,11 +14,12 @@ import {
 import { UnidadTematica } from '../../dominio/modelos/tiposPregunta.ts';
 import { SelectorCuatrimestre } from '../componentes/SelectorCuatrimestre.tsx';
 import { SelectorUnidades } from '../componentes/SelectorUnidades.tsx';
-import { Play, RotateCcw, Sparkles } from 'lucide-react';
+import { Play, RotateCcw, Sparkles, Lightbulb } from 'lucide-react';
 
 interface PropsPantallaInicio {
   totalPreguntasBanco: number;
   totalFallosPendientes: number;
+  totalPracticaPendiente: number;
   alIniciar: (config: ConfiguracionSesion) => void;
 }
 
@@ -34,6 +35,7 @@ const catalogo = [
 export const PantallaInicio: React.FC<PropsPantallaInicio> = ({
   totalPreguntasBanco,
   totalFallosPendientes,
+  totalPracticaPendiente,
   alIniciar,
 }) => {
   const [cuatrimestre, setCuatrimestre] = useState<FiltroCuatrimestre>('AMBOS');
@@ -129,7 +131,7 @@ export const PantallaInicio: React.FC<PropsPantallaInicio> = ({
           <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-amber-300">
               <RotateCcw className="w-4 h-4 shrink-0" />
-              <span>{totalFallosPendientes} pregunta(s) para repasar</span>
+              <span>{totalFallosPendientes} fallo(s) para repasar</span>
             </div>
             <button
               type="button"
@@ -140,6 +142,25 @@ export const PantallaInicio: React.FC<PropsPantallaInicio> = ({
               className="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-200 text-xs font-medium border border-amber-500/40"
             >
               Practicar Fallos
+            </button>
+          </div>
+        )}
+
+        {totalPracticaPendiente > 0 && (
+          <div className="p-3.5 rounded-xl bg-sky-500/10 border border-sky-500/25 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs text-sky-300">
+              <Lightbulb className="w-4 h-4 shrink-0" />
+              <span>{totalPracticaPendiente} pregunta(s) resuelta(s) con pista</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setModo('REPASO_PRACTICA');
+                alIniciar({ cuatrimestre: 'AMBOS', unidadesFiltro: [], tipoFiltro: 'TODOS', tamanoTanda: 20, modo: 'REPASO_PRACTICA' });
+              }}
+              className="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-200 text-xs font-medium border border-sky-500/40"
+            >
+              Practicar sin Pista
             </button>
           </div>
         )}

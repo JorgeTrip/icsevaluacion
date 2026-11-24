@@ -15,6 +15,24 @@ export const EsquemaOpcionPregunta = z.object({
   texto: z.string().min(1, 'El texto de la opción no puede estar vacío.'),
 });
 
+export const EsquemaPistaPregunta = z.object({
+  texto: z.string().min(1, 'El texto de la pista no puede estar vacío.'),
+  diagramaId: z
+    .enum([
+      'ishikawa',
+      'costo_calidad',
+      'cmmi',
+      'garvin',
+      'cynefin',
+      'triangulo_hierro',
+      'cono_incertidumbre',
+      'evm',
+      'scm_auditorias',
+      'piramide_cohn',
+    ])
+    .optional(),
+});
+
 export const EsquemaPregunta = z.object({
   id: z.string().min(1, 'El ID de la pregunta es requerido.'),
   cuatrimestre: z.nativeEnum(Cuatrimestre),
@@ -25,6 +43,7 @@ export const EsquemaPregunta = z.object({
   opcionesDestino: z.array(EsquemaOpcionPregunta).optional(),
   respuestasCorrectas: z.array(z.string()).min(1, 'Debe existir al menos una respuesta correcta.'),
   justificacion: z.string().min(1, 'La justificación teórica es requerida.'),
+  pista: EsquemaPistaPregunta.optional(),
   fuente: z.string().optional(),
 });
 

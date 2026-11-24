@@ -27,6 +27,10 @@ export function useProgresoLocal() {
     return progreso.historialFallos.map((f) => f.idPregunta);
   }, [progreso.historialFallos]);
 
+  const idsPracticaPendientes = useMemo(() => {
+    return (progreso.historialPractica || []).map((f) => f.idPregunta);
+  }, [progreso.historialPractica]);
+
   const registrarRespuesta = useCallback(
     (pregunta: Pregunta, resultado: ResultadoEvaluacionPregunta) => {
       setProgreso((prev) => {
@@ -60,6 +64,7 @@ export function useProgresoLocal() {
   return {
     progreso,
     idsFallosPendientes,
+    idsPracticaPendientes,
     registrarRespuesta,
     exportarHistorial,
     importarHistorial,

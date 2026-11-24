@@ -37,6 +37,23 @@ export interface ParEmparejamiento {
   destinoId: string;
 }
 
+export type TipoDiagramaPista =
+  | 'ishikawa'
+  | 'costo_calidad'
+  | 'cmmi'
+  | 'garvin'
+  | 'cynefin'
+  | 'triangulo_hierro'
+  | 'cono_incertidumbre'
+  | 'evm'
+  | 'scm_auditorias'
+  | 'piramide_cohn';
+
+export interface PistaPregunta {
+  texto: string;
+  diagramaId?: TipoDiagramaPista;
+}
+
 export interface Pregunta {
   id: string;
   cuatrimestre: Cuatrimestre;
@@ -47,6 +64,7 @@ export interface Pregunta {
   opcionesDestino?: OpcionPregunta[]; // Conceptos Columna B (Destino para UNIR_CONCEPTOS)
   respuestasCorrectas: string[]; // En UNIR_CONCEPTOS: ['origenId:destinoId', ...]
   justificacion: string;
+  pista?: PistaPregunta;
   fuente?: string;
 }
 

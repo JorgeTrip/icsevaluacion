@@ -21,6 +21,7 @@ export function exportarProgresoAJson(progreso: ProgresoEstudiante): string {
     version: 1,
     fechaExportacion: new Date().toISOString(),
     historialFallos: progreso.historialFallos,
+    historialPractica: progreso.historialPractica || [],
     estadisticas: progreso.estadisticas,
     rendimientoPorUnidad: progreso.rendimientoPorUnidad,
   };
@@ -43,11 +44,12 @@ export function importarProgresoDesdeJson(jsonString: string): ResultadoImportac
       };
     }
 
-    const { historialFallos, estadisticas, rendimientoPorUnidad } = resultadoValidacion.data;
+    const { historialFallos, historialPractica, estadisticas, rendimientoPorUnidad } = resultadoValidacion.data;
 
     // Castear de forma segura al modelo de dominio
     const progresoRestaurado: ProgresoEstudiante = {
       historialFallos,
+      historialPractica,
       estadisticas,
       // @ts-expect-error mapeo de clave string a UnidadTematica
       rendimientoPorUnidad,

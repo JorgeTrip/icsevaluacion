@@ -24,29 +24,47 @@ export function useSesionEvaluacion() {
   const [opcionesSeleccionadas, setOpcionesSeleccionadas] = useState<string[]>([]);
   const [resultadoActual, setResultadoActual] = useState<ResultadoEvaluacionPregunta | null>(null);
   const [estadoPregunta, setEstadoPregunta] = useState<EstadoPreguntaActiva>('PENDIENTE');
+  const [usoPistaActual, setUsoPistaActual] = useState<boolean>(false);
   const [respuestasRegistradas, setRespuestasRegistradas] = useState<ResultadoEvaluacionPregunta[]>([]);
 
   const preguntaActual = tanda[indiceActual] || null;
   const totalPreguntas = tanda.length;
 
   const iniciarEvaluacion = useCallback(
-    (config: ConfiguracionSesion, bancoCompleto: Pregunta[], idsFallos: string[] = []) => {
-      const preguntasFiltradas = generarTandaPreguntas(bancoCompleto, config, idsFallos);
+    (
+      config: ConfiguracionSesion,
+      bancoCompleto: Pregunta[],
+      idsFallos: string[] = [],
+      idsPractica: string[] = []
+    ) => {
+      const preguntasFiltradas = generarTandaPreguntas(
+        bancoCompleto,
+        config,
+        idsFallos,
+        idsPractica
+      );
       setConfiguracion(config);
       setTanda(preguntasFiltradas);
       setIndiceActual(0);
       setOpcionesSeleccionadas([]);
       setResultadoActual(null);
       setEstadoPregunta('PENDIENTE');
+      setUsoPistaActual(false);
       setRespuestasRegistradas([]);
       setEstadoSesion('EVALUANDO');
     },
     []
   );
 
+  const registrarUsoPista = useCallback(() => {
+    if (estadoPregunta === 'PENDIENTE') {
+      setUsoPistaActual(true);
+    }
+  }, [estadoPregunta]);
+
   const calificarSeleccion = useCallback(
     (nuevasOpciones: string[], pregunta: Pregunta, onRegistrar?: (p: Pregunta, r: ResultadoEvaluacionPregunta) => void) => {
-      const evaluacion = evaluarPregunta(pregunta, nuevasOpciones);
+      const evaluacion = evaluarPregunta(pregunta, nuevasOpciones, usoPistaActual);
       setResultadoActual(evaluacion);
       setEstadoPregunta('EVALUADA');
       setRespuestasRegistradas((prev) => [...prev, evaluacion]);
@@ -54,7 +72,7 @@ export function useSesionEvaluacion() {
         onRegistrar(pregunta, evaluacion);
       }
     },
-    []
+    [usoPistaActual]
   );
 
   const seleccionarOpcion = useCallback(
@@ -89,6 +107,7 @@ export function useSesionEvaluacion() {
       setOpcionesSeleccionadas([]);
       setResultadoActual(null);
       setEstadoPregunta('PENDIENTE');
+      setUsoPistaActual(false);
     } else {
       setEstadoSesion('RESULTADOS');
     }
@@ -105,6 +124,7 @@ export function useSesionEvaluacion() {
     setResultadoActual(null);
     setOpcionesSeleccionadas([]);
     setEstadoPregunta('PENDIENTE');
+    setUsoPistaActual(false);
   }, []);
 
   const irAHistorial = useCallback(() => {
@@ -121,8 +141,10 @@ export function useSesionEvaluacion() {
     opcionesSeleccionadas,
     resultadoActual,
     estadoPregunta,
+    usoPistaActual,
     respuestasRegistradas,
     iniciarEvaluacion,
+    registrarUsoPista,
     seleccionarOpcion,
     establecerOpcionesSeleccionadas: setOpcionesSeleccionadas,
     confirmarRespuestaMultiple,

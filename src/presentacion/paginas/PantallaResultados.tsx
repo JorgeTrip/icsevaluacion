@@ -7,13 +7,14 @@ import React, { useMemo } from 'react';
 import { Pregunta } from '../../dominio/modelos/tiposPregunta.ts';
 import { ResultadoEvaluacionPregunta } from '../../dominio/modelos/tiposSesion.ts';
 import { MetricasResumen } from '../componentes/MetricasResumen.tsx';
-import { RotateCcw, ArrowLeft, BarChart2 } from 'lucide-react';
+import { RotateCcw, ArrowLeft, BarChart2, Lightbulb } from 'lucide-react';
 
 interface PropsPantallaResultados {
   tanda: Pregunta[];
   respuestas: ResultadoEvaluacionPregunta[];
   alReiniciar: () => void;
   alPracticarFallos: (idsFallos: string[]) => void;
+  alPracticarConPista: (idsPractica: string[]) => void;
   alIrAHistorial: () => void;
 }
 
@@ -22,18 +23,22 @@ export const PantallaResultados: React.FC<PropsPantallaResultados> = ({
   respuestas,
   alReiniciar,
   alPracticarFallos,
+  alPracticarConPista,
   alIrAHistorial,
 }) => {
-  const { correctas, parciales, incorrectas, puntajeTotal, idsFallos } = useMemo(() => {
+  const { correctas, parciales, incorrectas, puntajeTotal, idsFallos, idsPractica } = useMemo(() => {
     let corr = 0;
     let parc = 0;
     let incorr = 0;
     let total = 0;
     const fallos: string[] = [];
+    const practica: string[] = [];
 
     for (const r of respuestas) {
       total += r.puntajeObtenido;
-      if (r.estado === 'CORRECTA') {
+      if (r.estado === 'CORRECTA' && r.usoPista) {
+        practica.push(r.idPregunta);
+      } else if (r.estado === 'CORRECTA') {
         corr++;
       } else if (r.estado === 'PARCIAL') {
         parc++;
@@ -50,6 +55,7 @@ export const PantallaResultados: React.FC<PropsPantallaResultados> = ({
       incorrectas: incorr,
       puntajeTotal: total,
       idsFallos: fallos,
+      idsPractica: practica,
     };
   }, [respuestas]);
 
@@ -85,6 +91,16 @@ export const PantallaResultados: React.FC<PropsPantallaResultados> = ({
           >
             <RotateCcw className="w-4 h-4" />
             <span>Repasar las {idsFallos.length} preguntas falladas</span>
+          </button>
+        )}
+
+        {idsPractica.length > 0 && (
+          <button
+            onClick={() => alPracticarConPista(idsPractica)}
+            className="w-full py-3.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm sm:text-base transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <Lightbulb className="w-4 h-4" />
+            <span>Practicar sin pista ({idsPractica.length})</span>
           </button>
         )}
 

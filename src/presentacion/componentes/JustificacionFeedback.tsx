@@ -10,6 +10,7 @@ import { CheckCircle2, AlertTriangle, XCircle, ArrowRight, Lightbulb } from 'luc
 interface PropsJustificacionFeedback {
   estado: EstadoResultado;
   puntajeObtenido: number;
+  usoPista?: boolean;
   justificacion: string;
   esUltimaPregunta: boolean;
   alAvanzar: () => void;
@@ -18,6 +19,7 @@ interface PropsJustificacionFeedback {
 export const JustificacionFeedback: React.FC<PropsJustificacionFeedback> = ({
   estado,
   puntajeObtenido,
+  usoPista = false,
   justificacion,
   esUltimaPregunta,
   alAvanzar,
@@ -25,24 +27,24 @@ export const JustificacionFeedback: React.FC<PropsJustificacionFeedback> = ({
   // Configuración visual según el resultado
   const config = {
     CORRECTA: {
-      borde: 'border-emerald-500/40',
-      fondo: 'bg-emerald-500/10',
-      texto: 'text-emerald-400',
-      titulo: '¡Correcto!',
-      icono: <CheckCircle2 className="w-5 h-5 text-emerald-400" />,
+      borde: usoPista ? 'border-sky-500/40' : 'border-emerald-500/40',
+      fondo: usoPista ? 'bg-sky-500/10' : 'bg-emerald-500/10',
+      texto: usoPista ? 'text-sky-300' : 'text-emerald-400',
+      titulo: usoPista ? '¡Correcto! (con pista)' : '¡Correcto!',
+      icono: <CheckCircle2 className={`w-5 h-5 ${usoPista ? 'text-sky-400' : 'text-emerald-400'}`} />,
     },
     PARCIAL: {
       borde: 'border-amber-500/40',
       fondo: 'bg-amber-500/10',
       texto: 'text-amber-400',
-      titulo: 'Parcialmente correcto',
+      titulo: usoPista ? 'Parcialmente correcto (con pista)' : 'Parcialmente correcto',
       icono: <AlertTriangle className="w-5 h-5 text-amber-400" />,
     },
     INCORRECTA: {
       borde: 'border-red-500/40',
       fondo: 'bg-red-500/10',
       texto: 'text-red-400',
-      titulo: 'Incorrecto',
+      titulo: usoPista ? 'Incorrecto (con pista)' : 'Incorrecto',
       icono: <XCircle className="w-5 h-5 text-red-400" />,
     },
   }[estado];
@@ -50,7 +52,7 @@ export const JustificacionFeedback: React.FC<PropsJustificacionFeedback> = ({
   return (
     <div className={`rounded-2xl p-4 sm:p-5 border ${config.borde} ${config.fondo} space-y-4 animate-fadeIn shadow-lg`}>
       {/* Cabecera con estado y puntaje */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {config.icono}
           <span className={`font-semibold text-sm sm:text-base ${config.texto}`}>
@@ -58,7 +60,9 @@ export const JustificacionFeedback: React.FC<PropsJustificacionFeedback> = ({
           </span>
         </div>
         <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#3A3A3C] text-[#F2F2F7]">
-          +{puntajeObtenido.toFixed(2)} pt
+          {usoPista && estado === 'CORRECTA'
+            ? '+0.00 pt · A Práctica'
+            : `+${puntajeObtenido.toFixed(2)} pt`}
         </span>
       </div>
 

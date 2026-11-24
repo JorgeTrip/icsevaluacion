@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.2.0",
+    "fecha": "2026-11-24",
+    "titulo": "Sistema de Hints (Pistas) con modal, diagramas SVG y lista de Práctica sin Pista",
+    "cambios": [
+      "feat: Se agrega botón 'Pista' en cada pregunta que abre un modal accesible con orientación teórica y 10 diagramas SVG didácticos (Ishikawa, Costos de Calidad, CMMI, Garvin, Cynefin, Triángulo de Hierro, Cono de Incertidumbre, EVM, SCM y Pirámide de Cohn)",
+      "feat: Se implementa la regla académica de pistas: al usar pista la pregunta da feedback completo pero puntúa 0.00 pt; si acierta pasa a la nueva lista 'Práctica sin Pista' (REPASO_PRACTICA) y si falla pasa a 'Fallos'",
+      "feat: Se añaden accesos directos para 'Practicar sin Pista' en PantallaInicio y PantallaResultados, con persistencia retrocompatible en LocalStorage y exportación JSON",
+      "feat: Se generan pistas conceptuales orientadoras sin spoilers para las 208 preguntas del banco oficial",
+      "test: Se incorporan pruebas TDD de dominio y presentación en pistasYPractica.test.ts y ModalPista.test.tsx"
+    ]
+  },
+  {
     "version": "1.1.9",
     "fecha": "2026-11-23",
     "titulo": "Indicador visual 'Faltó marcar' en selección múltiple y justificación de u5-143",

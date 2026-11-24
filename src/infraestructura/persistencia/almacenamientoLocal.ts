@@ -47,9 +47,10 @@ export function obtenerProgresoGuardado(): ProgresoEstudiante {
       return inicial;
     }
 
-    const { historialFallos, estadisticas, rendimientoPorUnidad } = validacion.data;
+    const { historialFallos, historialPractica, estadisticas, rendimientoPorUnidad } = validacion.data;
     return {
       historialFallos,
+      historialPractica,
       estadisticas,
       // @ts-expect-error mapeo seguro
       rendimientoPorUnidad,
@@ -72,6 +73,7 @@ export function guardarProgreso(progreso: ProgresoEstudiante): void {
       version: 1,
       fechaExportacion: new Date().toISOString(),
       historialFallos: progreso.historialFallos,
+      historialPractica: progreso.historialPractica || [],
       estadisticas: progreso.estadisticas,
       rendimientoPorUnidad: progreso.rendimientoPorUnidad,
     };

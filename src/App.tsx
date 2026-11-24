@@ -31,6 +31,7 @@ export function App() {
   const {
     progreso,
     idsFallosPendientes,
+    idsPracticaPendientes,
     registrarRespuesta,
     exportarHistorial,
     importarHistorial,
@@ -47,8 +48,10 @@ export function App() {
     opcionesSeleccionadas,
     resultadoActual,
     estadoPregunta,
+    usoPistaActual,
     respuestasRegistradas,
     iniciarEvaluacion,
+    registrarUsoPista,
     seleccionarOpcion,
     establecerOpcionesSeleccionadas,
     confirmarRespuestaMultiple,
@@ -73,8 +76,9 @@ export function App() {
           <PantallaInicio
             totalPreguntasBanco={bancoPreguntas.length}
             totalFallosPendientes={idsFallosPendientes.length}
+            totalPracticaPendiente={idsPracticaPendientes.length}
             alIniciar={(config) =>
-              iniciarEvaluacion(config, bancoPreguntas, idsFallosPendientes)
+              iniciarEvaluacion(config, bancoPreguntas, idsFallosPendientes, idsPracticaPendientes)
             }
           />
         )}
@@ -88,6 +92,8 @@ export function App() {
             opcionesSeleccionadas={opcionesSeleccionadas}
             resultadoActual={resultadoActual}
             estadoPregunta={estadoPregunta}
+            usoPistaActual={usoPistaActual}
+            alRegistrarUsoPista={registrarUsoPista}
             alSeleccionarOpcion={(idOpcion) =>
               seleccionarOpcion(idOpcion, registrarRespuesta)
             }
@@ -116,6 +122,20 @@ export function App() {
                   modo: 'REPASO_FALLOS',
                 },
                 bancoPreguntas,
+                ids
+              )
+            }
+            alPracticarConPista={(ids) =>
+              iniciarEvaluacion(
+                {
+                  cuatrimestre: 'AMBOS',
+                  unidadesFiltro: [],
+                  tipoFiltro: 'TODOS',
+                  tamanoTanda: 20,
+                  modo: 'REPASO_PRACTICA',
+                },
+                bancoPreguntas,
+                [],
                 ids
               )
             }
