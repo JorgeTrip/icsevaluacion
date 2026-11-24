@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.2.1",
+    "fecha": "2026-11-24",
+    "titulo": "Purga de respuestas múltiples incompatibles en preguntas de opción única",
+    "cambios": [
+      "fix: Se corrigen las 8 preguntas de opción única que almacenaban múltiples claves mutuamente excluyentes (u1-017, u1-052, u1-055, u1-077, u1-113, u1-121, u1-164 y u6-165), contrastándolas con los parciales oficiales",
+      "fix: Se reconvierten u3-053 (Ceremonias de Scrum) y u1-065 (Dominios de Cynefin) a la modalidad interactiva UNIR_CONCEPTOS con flechas SVG",
+      "test: Se añade aserción obligatoria en bancoPreguntas.test.ts exigiendo exactamente 1 respuesta correcta en toda pregunta OPCION_UNICA y VERDADERO_FALSO"
+    ]
+  },
+  {
     "version": "1.2.0",
     "fecha": "2026-11-24",
     "titulo": "Sistema de Hints (Pistas) con modal, diagramas SVG y lista de Práctica sin Pista",

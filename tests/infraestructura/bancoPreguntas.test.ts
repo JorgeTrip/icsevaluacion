@@ -43,6 +43,10 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
         for (const idCorrecta of preg.respuestasCorrectas) {
           expect(idsOrigen.has(idCorrecta)).toBe(true);
         }
+        // Ninguna pregunta de opción única o V/F puede tener más de 1 respuesta correcta
+        if (preg.tipo === 'OPCION_UNICA' || preg.tipo === 'VERDADERO_FALSO') {
+          expect(preg.respuestasCorrectas).toHaveLength(1);
+        }
         // Ninguna pregunta de opción única o múltiple puede tener saltos o ausencia de opción 'a'
         if (preg.tipo !== 'VERDADERO_FALSO') {
           const esperados = preg.opciones.map((_, idx) => String.fromCharCode(97 + idx));
