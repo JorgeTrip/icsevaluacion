@@ -27,13 +27,8 @@ const paletaPares = [
 ];
 
 export const PreguntaUnirConceptos: React.FC<PropsPreguntaUnirConceptos> = ({
-  opcionesOrigen,
-  opcionesDestino,
-  opcionesSeleccionadas,
-  respuestasCorrectas,
-  estaEvaluada,
-  alCambiarPares,
-  alConfirmar,
+  opcionesOrigen, opcionesDestino, opcionesSeleccionadas, respuestasCorrectas,
+  estaEvaluada, alCambiarPares, alConfirmar,
 }) => {
   const [origenSeleccionado, setOrigenSeleccionado] = useState<string | null>(null);
   const contenedorRef = useRef<HTMLDivElement>(null);
@@ -100,26 +95,30 @@ export const PreguntaUnirConceptos: React.FC<PropsPreguntaUnirConceptos> = ({
     }
   };
 
+  const permiteMultiplesDestinos = opcionesOrigen.length > opcionesDestino.length;
+
   const tocarDestino = (id: string) => {
     if (estaEvaluada) return;
     if (origenSeleccionado) {
       const nuevoPar = `${origenSeleccionado}:${id}`;
       const sinOrigen = opcionesSeleccionadas.filter((p) => !p.startsWith(`${origenSeleccionado}:`));
-      const sinDestino = sinOrigen.filter((p) => !p.endsWith(`:${id}`));
-      alCambiarPares([...sinDestino, nuevoPar]);
+      const base = permiteMultiplesDestinos ? sinOrigen : sinOrigen.filter((p) => !p.endsWith(`:${id}`));
+      alCambiarPares([...base, nuevoPar]);
       setOrigenSeleccionado(null);
     } else {
-      const parExistente = opcionesSeleccionadas.find((p) => p.endsWith(`:${id}`));
-      if (parExistente) {
-        alCambiarPares(opcionesSeleccionadas.filter((p) => p !== parExistente));
-      }
+      const parExistente = [...opcionesSeleccionadas].reverse().find((p) => p.endsWith(`:${id}`));
+      if (parExistente) alCambiarPares(opcionesSeleccionadas.filter((p) => p !== parExistente));
     }
   };
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between text-xs text-[#AEAEB2]">
-        <span>Toca un concepto de la izquierda y luego su correspondencia a la derecha</span>
+        <span>
+          {permiteMultiplesDestinos
+            ? 'Toca un concepto de la izquierda y luego su categoría a la derecha (varios pueden compartir destino)'
+            : 'Toca un concepto de la izquierda y luego su correspondencia a la derecha'}
+        </span>
         {opcionesSeleccionadas.length > 0 && !estaEvaluada && (
           <button
             onClick={() => alCambiarPares([])}
