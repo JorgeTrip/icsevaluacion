@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.2.3",
+    "fecha": "2026-11-24",
+    "titulo": "Eliminación de duplicado corrupto u1-071, corrección de u3-066 (Cynefin) y limpieza de fuentes",
+    "cambios": [
+      "fix: Se elimina el duplicado mal extraído u1-071 (cuyas opciones mezclaban las 3 afirmaciones con 'Todas las afirmaciones son incorrectas' y tenía clave errónea), manteniendo la versión oficial completa en u3-066",
+      "fix: Se corrigen la justificación y la pista de u3-066 para alinearlas al marco Cynefin (diagramaId: 'cynefin')",
+      "fix: Se limpian 8 metadatos de fuente contaminados con texto residual de otras preguntas y se agrega tope de longitud en bancoPreguntas.test.ts"
+    ]
+  },
+  {
     "version": "1.2.2",
     "fecha": "2026-11-24",
     "titulo": "Corrección de ítems desplazados, enunciado incompleto en ISO 25000 y justificaciones Cynefin",

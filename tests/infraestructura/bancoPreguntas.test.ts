@@ -67,6 +67,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
       expect(preg.enunciado).not.toContain('Sin contestar');
       expect(preg.enunciado).not.toContain('Respuesta incorrecta');
       expect(preg.enunciado).not.toContain('La respuesta correcta es');
+      expect(preg.fuente.length).toBeLessThan(120);
       expect(preg.justificacion).not.toContain('principios de calidad de la cátedra');
       expect(preg.justificacion).not.toContain('Respuesta oficial');
 
