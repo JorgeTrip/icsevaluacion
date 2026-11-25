@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.3.0",
+    "fecha": "2026-11-24",
+    "titulo": "Auditoría académica integral de las 200 preguntas: enunciados, claves, justificaciones y pistas",
+    "cambios": [
+      "fix: Se eliminan 7 preguntas duplicadas exactas o cortadas irrecuperables (u1-029, u1-083, u1-166, u1-172, u6-185, u1-186 y u6-187), consolidando un banco limpio de 200 preguntas",
+      "fix: Se reconstruyen enunciados y opciones dañadas (u1-007 con las 4 causas oficiales, u1-078 moviendo las 5 afirmaciones de TimeBox a opciones, u2-018 y u2-032 separando opciones concatenadas, u2-038 sin opción duplicada, u1-144 redefinida a Local Build sin filtro de clave, u6-167 completa, u6-194 sin fórmula resuelta filtrada y u1-008 sin pistas visuales)",
+      "fix: Se corrigen 10 claves verificadas contra el material oficial de cátedra (u2-018, u2-030, u3-063, u3-067, u3-074, u1-078, u5-112, u1-117, u1-129, u5-131, u1-139, u6-158, u6-179, u6-182 y u6-191)",
+      "fix: Se reescriben ~45 justificaciones desacopladas y ~60 pistas/diagramas SVG desalineados (eliminando spoilers literales en u1-044, u1-093, u1-095 y u1-100 y reasignando correctamente cynefin, cmmi, costo_calidad y piramide_cohn)",
+      "test: Se fortalecen los invariantes en bancoPreguntas.test.ts prohibiendo opciones duplicadas y opciones concatenadas"
+    ]
+  },
+  {
     "version": "1.2.3",
     "fecha": "2026-11-24",
     "titulo": "Eliminación de duplicado corrupto u1-071, corrección de u3-066 (Cynefin) y limpieza de fuentes",

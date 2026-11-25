@@ -6,8 +6,8 @@ import { Pregunta } from '../../dominio/modelos/tiposPregunta.ts';
 const bancoPreguntas = bancoPreguntasRaw as Pregunta[];
 
 describe('Infraestructura: Validación del Dataset de Preguntas', () => {
-  it('debe contener más de 200 preguntas extraídas de los exámenes reales', () => {
-    expect(bancoPreguntas.length).toBeGreaterThan(200);
+  it('debe contener al menos 200 preguntas extraídas de los exámenes reales', () => {
+    expect(bancoPreguntas.length).toBeGreaterThanOrEqual(200);
   });
 
   it('debe validar la totalidad del banco contra el esquema Zod sin errores', () => {
@@ -75,20 +75,25 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
       expect(preg.enunciado).not.toContain(') (');
       expect(preg.justificacion).not.toContain(') (');
       const validarBalance = (txt: string) => {
-        const limpio = txt.replace(/\b[1-9]\)/g, '');
+        const limpio = txt.replace(/(?:^|\n)\s*[1-9]\)\s+/g, ' ');
         expect((limpio.match(/\(/g) || []).length).toBe((limpio.match(/\)/g) || []).length);
       };
       validarBalance(preg.enunciado);
       validarBalance(preg.justificacion);
 
-      // Las opciones no deben tener cadenas espurias ni placeholders
+      // Las opciones no deben tener cadenas espurias, duplicados ni placeholders
+      const textosOpciones = new Set<string>();
       for (const opt of preg.opciones) {
+        const normalizado = opt.texto.trim().toLowerCase();
+        expect(textosOpciones.has(normalizado)).toBe(false);
+        textosOpciones.add(normalizado);
         expect(opt.texto).not.toContain('Respuesta incorrecta');
         expect(opt.texto).not.toContain('Respuesta correcta');
         expect(opt.texto).not.toContain('Sin contestar');
         expect(opt.texto).not.toContain('Opción alternativa de evaluación');
         expect(opt.texto).not.toContain(') (');
         expect(opt.texto).not.toMatch(/\s[2-9]\.$/);
+        expect(opt.texto).not.toMatch(/\s[i-k]\.\s+(?:Solo|Todas|Las)\b/i);
         validarBalance(opt.texto);
       }
 
