@@ -58,11 +58,11 @@ describe('Capa de Aplicación: useProgresoLocal', () => {
   it('debe depurar IDs obsoletos de historialFallos e historialPractica que ya no existan en el banco', () => {
     const progresoConHuerfanos = crearProgresoInicial();
     progresoConHuerfanos.historialFallos = [
-      { idPregunta: 'u1-01', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 1 },
-      { idPregunta: 'u1-071', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 2 },
+      { idPregunta: 'u1-01', ultimoFallo: new Date().toISOString(), contadorFallos: 1 },
+      { idPregunta: 'u1-071', ultimoFallo: new Date().toISOString(), contadorFallos: 2 },
     ];
     progresoConHuerfanos.historialPractica = [
-      { idPregunta: 'u1-071', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 1 },
+      { idPregunta: 'u1-071', ultimoFallo: new Date().toISOString(), contadorFallos: 1 },
     ];
     guardarProgreso(progresoConHuerfanos);
 
