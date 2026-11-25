@@ -62,6 +62,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
       expect(preg.enunciado).not.toMatch(/^['"]?(?:Verdadero|Falso)['"]?/i);
       expect(preg.enunciado).not.toMatch(/^['"✅👇•\-\.]/);
       expect(preg.enunciado).not.toMatch(/^[a-záéíóúñ]/);
+      expect(preg.enunciado).not.toMatch(/\b(?:Marque|Seleccione|Indique)\s+(?:la|el|las|los)\s*:/i);
       expect(preg.enunciado).not.toMatch(/\bMarque\s+la\s*:?$/i);
       expect(preg.enunciado).not.toContain('Sin contestar');
       expect(preg.enunciado).not.toContain('Respuesta incorrecta');
@@ -86,6 +87,7 @@ describe('Infraestructura: Validación del Dataset de Preguntas', () => {
         expect(opt.texto).not.toContain('Sin contestar');
         expect(opt.texto).not.toContain('Opción alternativa de evaluación');
         expect(opt.texto).not.toContain(') (');
+        expect(opt.texto).not.toMatch(/\s[2-9]\.$/);
         validarBalance(opt.texto);
       }
 

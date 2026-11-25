@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.2.2",
+    "fecha": "2026-11-24",
+    "titulo": "Corrección de ítems desplazados, enunciado incompleto en ISO 25000 y justificaciones Cynefin",
+    "cambios": [
+      "fix: Se restaura u1-031 completando el enunciado ('Marque la opción correcta:'), eliminando los sufijos numéricos desplazados ('2.'..'6.') y corrigiendo su clave a 'e' (Ninguna de las anteriores) con justificación e hint alineados a Confidencialidad en ISO 25000",
+      "fix: Se corrigen las justificaciones desacopladas en u3-070 y u3-076 sobre el marco Cynefin",
+      "test: Se añaden aserciones en bancoPreguntas.test.ts contra enunciados terminados en 'Marque/Seleccione/Indique la:' y opciones con numeración desplazada al final"
+    ]
+  },
+  {
     "version": "1.2.1",
     "fecha": "2026-11-24",
     "titulo": "Purga de respuestas múltiples incompatibles en preguntas de opción única",
