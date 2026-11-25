@@ -15,6 +15,7 @@ import { PantallaResultados } from './presentacion/paginas/PantallaResultados.ts
 import { PantallaHistorial } from './presentacion/paginas/PantallaHistorial.tsx';
 
 const bancoPreguntas = bancoPreguntasRaw as Pregunta[];
+const idsBancoVigentes = new Set(bancoPreguntas.map((p) => p.id));
 
 export function App() {
   const [esModoOscuro, setEsModoOscuro] = useState<boolean>(true);
@@ -36,7 +37,7 @@ export function App() {
     exportarHistorial,
     importarHistorial,
     borrarHistorial,
-  } = useProgresoLocal();
+  } = useProgresoLocal(idsBancoVigentes);
 
   const {
     estadoSesion,

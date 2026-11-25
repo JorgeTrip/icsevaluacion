@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.3.1",
+    "fecha": "2026-11-24",
+    "titulo": "Saneamiento automático de IDs obsoletos en fallos y práctica sin pista",
+    "cambios": [
+      "fix: Se depuran automáticamente los IDs de preguntas eliminadas por duplicación en historialFallos e historialPractica al iniciar useProgresoLocal o importar JSON, evitando que los contadores muestren preguntas inexistentes en el banco vigente",
+      "test: Se agrega prueba unitaria en useProgresoLocal.test.ts verificando la limpieza automática de IDs huérfanos"
+    ]
+  },
+  {
     "version": "1.3.0",
     "fecha": "2026-11-24",
     "titulo": "Auditoría académica integral de las 200 preguntas: enunciados, claves, justificaciones y pistas",

@@ -8,7 +8,11 @@ import {
   UnidadTematica,
 } from '../../src/dominio/modelos/tiposPregunta.ts';
 import { ResultadoEvaluacionPregunta } from '../../src/dominio/modelos/tiposSesion.ts';
-import { limpiarProgresoGuardado } from '../../src/infraestructura/persistencia/almacenamientoLocal.ts';
+import {
+  guardarProgreso,
+  limpiarProgresoGuardado,
+} from '../../src/infraestructura/persistencia/almacenamientoLocal.ts';
+import { crearProgresoInicial } from '../../src/dominio/servicios/gestorProgreso.ts';
 
 describe('Capa de Aplicación: useProgresoLocal', () => {
   beforeEach(() => {
@@ -49,5 +53,23 @@ describe('Capa de Aplicación: useProgresoLocal', () => {
     expect(result.current.progreso.estadisticas.totalRespondidas).toBe(1);
     expect(result.current.progreso.estadisticas.totalIncorrectas).toBe(1);
     expect(result.current.idsFallosPendientes).toContain('u1-01');
+  });
+
+  it('debe depurar IDs obsoletos de historialFallos e historialPractica que ya no existan en el banco', () => {
+    const progresoConHuerfanos = crearProgresoInicial();
+    progresoConHuerfanos.historialFallos = [
+      { idPregunta: 'u1-01', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 1 },
+      { idPregunta: 'u1-071', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 2 },
+    ];
+    progresoConHuerfanos.historialPractica = [
+      { idPregunta: 'u1-071', fechaUltimoFallo: new Date().toISOString(), vecesFallada: 1 },
+    ];
+    guardarProgreso(progresoConHuerfanos);
+
+    const idsValidos = new Set(['u1-01', 'u1-02']);
+    const { result } = renderHook(() => useProgresoLocal(idsValidos));
+
+    expect(result.current.idsFallosPendientes).toEqual(['u1-01']);
+    expect(result.current.idsPracticaPendientes).toEqual([]);
   });
 });
